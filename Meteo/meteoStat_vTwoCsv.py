@@ -12,8 +12,8 @@ lcd = CharLCD(cols = 16, rows = 2, pin_rs = 37, pin_e = 35, pins_data = [33, 31,
 ## Fonctions
 
 def Time(date): # Chronologie associée à une variable
-    #"""fonction préparant le forçage le typage de la variable var en datetime.datetime ou datetime.date
-    #en fonction du booléen date (True = datetime.date; False = datetime.datetime)"""
+    """fonction préparant le forçage le typage de la variable var en datetime.datetime ou datetime.date
+    en fonction du booléen date (True = datetime.date; False = datetime.datetime)"""
     if not(date): # si on veut un '.datetime'
         var = time.strftime("%Y-%m-%d|%H:%M:%S") # Récupération de l'année (%Y), du mois (%m), du jour (%d), de l'heure (%H), de la minute (%M) et de la seconde (%S)
         # la ponctuation -|: sont des séparrateurs
@@ -22,7 +22,7 @@ def Time(date): # Chronologie associée à une variable
     return DatePourComparaison(var) # utilisation de la fonction forçant le typage
 
 def DatePourComparaison(lst):
-    #"""fonction qui force le typage comme décris plus tôt"""
+    """fonction qui force le typage comme décris plus tôt"""
     
     #assert(len(lst) == )
     list(lst) # forçage du type de la variable lst en liste
