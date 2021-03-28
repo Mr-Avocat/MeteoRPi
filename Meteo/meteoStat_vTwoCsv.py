@@ -21,9 +21,9 @@ def Time(date): # Chronologie associée à une variable
         var = time.strftime("%Y-%m-%d")
     return DatePourComparaison(var) # utilisation de la fonction forçant le typage
 
+
 def DatePourComparaison(lst):
     """fonction qui force le typage comme décris plus tôt"""
-    
     #assert(len(lst) == )
     list(lst) # forçage du type de la variable lst en liste
     j = 0 # index de la liste b
@@ -53,7 +53,8 @@ def DatePourComparaison(lst):
     return d # renvoi du datetime.date ou .datetime
 
 
-def AffichagePrLCD(lcd): # Procédure qui affiche les informations sur le moniteur LCD
+def AffichagePrLCD(lcd): 
+    """Procédure qui affiche les informations sur le moniteur LCD"""
     lcd.clear() # efface l'écran
     lcd.cursor_pos = (0, 0) # positionne le 'curseur'
     lcd.write_string(str(round(temperature, 2))) # écris les valeurs de température
@@ -70,7 +71,9 @@ def AffichagePrLCD(lcd): # Procédure qui affiche les informations sur le monite
     lcd.cursor_pos = (1, 4)
     lcd.write_string("%")
     
+    
 def PartieDecimale(nb):
+    """Fonction qui renvoi la partie décimale d'un flottant"""
     a = nb
     b = int(nb)
     a = a - b
@@ -81,7 +84,7 @@ def PartieDecimale(nb):
             b = b + str(a[i])
     return b
     
-    
+## Application des fonctions    
 
 demarrage = input("Souhaitez-vous un démarrage des mesures tardif ? [o/n] ") # permet de démarrer ou non les mesures à une date donnée
 date = Time(False) # variable date de type '.datetime'
@@ -92,8 +95,10 @@ if demarrage == "o" or demarrage == "O": # options pour le démarrage à une dat
     date_fin = input("Date de fin (Y-M-D) & Heure de fin (|H:M:S) : ")
     date_fin = DatePourComparaison(date_fin)
     tpsEntreMesures = int(input("Temps entre chaque mesures en secondes : "))
+    
     while date_dbt > date: # tant que l'on est avant la date de démarrage choisie on attend
         date = Time(False) # à optimiser avec un time.sleep pour économiser des ressources processeur
+        
 else: # option de démarrage instantanné
     date_fin = input("Date de fin (Y-M-D) & Heure de fin (|H:M:S): ")
     date_fin = DatePourComparaison(date_fin)
@@ -126,9 +131,11 @@ while date_fin >= date: # mesures et affichage
 
 
     temperature, pression, humidite = bme280.readBME280All() # récupération des données
-    file_csv.write(str(time.strftime("%H:%M:%S"))+ ";" + str(int(temperature)) + "," + str(PartieDecimale(round(temperature, 2 ))) + ";" + str(int(pression)) + "," + str(PartieDecimale(round(pression, 2))) + ";" + str(int(humidite))  + "," + str(PartieDecimale(round(humidite, 2))) + " \n")
-    
     # sauvegarde des données
+    file_csv.write(str(time.strftime("%H:%M:%S"))+ ";" + str(int(temperature)) + "," + str(PartieDecimale(round(temperature, 2 ))) + ";" + str(int(pression)) + "," + str(PartieDecimale(round(pression, 2))) + ";" + str(int(humidite))  + "," + str(PartieDecimale(round(humidite, 2))) + " \n")
+    # remplacement des "." par des "," pour les nombres flottants au moment de l'écriture avec la concaténation et à l'aide de la fonction PartieDecimale pour libre office
+    
+    # affichage provisoire des données
     print(str(temperature) + "C" + str(pression) + "hPa" + str(humidite) + "%")
 
     AffichagePrLCD(lcd) # affichage des dernières mesures
